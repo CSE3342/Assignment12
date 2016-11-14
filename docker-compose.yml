@@ -1,0 +1,12 @@
+version: '2'
+services:
+  php-apache:
+    container_name: php-apache
+    image: toozick/cse3342-php-apache:v1
+    ports:
+      - "8080:80"
+    environment:
+      XDEBUG_CONFIG: remote_host=<do_not_touch>
+      CI_ENV: development
+    volumes:
+      - ./:/var/www/html/
