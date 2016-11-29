@@ -1,0 +1,12 @@
+Name: Preston Tighe
+Class: CSE 3342 - Programming Languages
+Date: 11-28-2016
+Assignment: Assignment 12B
+
+GitHub: https://github.com/CSE3342/Assignment12
+
+URL: http://lyle.smu.edu/~prestont/3342/dataService.php
+
+Tracking: people
+
+Contents: MyLanguage.g4, MyLanguageRunner.java, dataService.php, output.pdf

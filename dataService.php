@@ -71,7 +71,8 @@ class Database {
             }
         }
         if(!empty($invalid_keys)){
-            throw new Exception('Invalid keys: ' . implode(', ',$invalid_keys) .
+            throw new Exception('Invalid keys: ' .
+                implode(', ',$invalid_keys) .
                 ', expecting keys: ' . implode(', ',$valid_keys));
         }
     }
@@ -91,7 +92,8 @@ class Database {
     }
     private function _fetch_database(){
         if(file_exists($this->database_name)){
-            $this->rows = json_decode(file_get_contents($this->database_name), true);
+            $this->rows = json_decode(
+                file_get_contents($this->database_name), true);
         }
     }
     private function _lookup_id(){
@@ -102,16 +104,22 @@ class Database {
             }
         }
         if(empty($return_data)){
-            throw new Exception('Could not find any rows with ID #' . $this->id . '.');
+            throw new Exception('Could not find any rows with ID #' .
+                $this->id . '.');
         }
 
-        return $this->_pretty_print(json_encode($return_data));
+        $names = array();
+        foreach($return_data as $item){
+            $names[] = $item['val'];
+        }
+        return count($return_data) . ' names in history: ' .
+            implode(', ', array_reverse($names));
     }
     private function _lookup_key(){
         foreach(array_reverse($this->rows) as $row){
             if($row['id'] == $this->id){
                 if($row['key'] == $this->key){
-                    return json_encode($row);
+                    return $row['val'];
                 }
             }
         }
@@ -126,9 +134,9 @@ class Database {
             $ids[] = $row['id'];
             $keys[] = $row['key'];
         }
-        $message .= 'IDS:<br>';
+        $message .= 'IDS:' . "\n";
         $message .= implode(' ', $ids);
-        $message .= '<br>KEYS:<br>';
+        $message .= "\n" . 'KEYS:' . "\n";
         $message .= implode(' ', $keys);
         return $message;
     }
@@ -139,65 +147,10 @@ class Database {
             'val' => $this->val
         );
         $this->_save_database();
+        echo 'Row has been inserted';
     }
     private function _save_database(){
         file_put_contents($this->database_name, json_encode($this->rows));
-    }
-    private function _pretty_print( $json )
-    {
-        $result = '';
-        $level = 0;
-        $in_quotes = false;
-        $in_escape = false;
-        $ends_line_level = NULL;
-        $json_length = strlen( $json );
-
-        for( $i = 0; $i < $json_length; $i++ ) {
-            $char = $json[$i];
-            $new_line_level = NULL;
-            $post = "";
-            if( $ends_line_level !== NULL ) {
-                $new_line_level = $ends_line_level;
-                $ends_line_level = NULL;
-            }
-            if ( $in_escape ) {
-                $in_escape = false;
-            } else if( $char === '"' ) {
-                $in_quotes = !$in_quotes;
-            } else if( ! $in_quotes ) {
-                switch( $char ) {
-                    case '}': case ']':
-                    $level--;
-                    $ends_line_level = NULL;
-                    $new_line_level = $level;
-                    break;
-
-                    case '{': case '[':
-                    $level++;
-                    case ',':
-                        $ends_line_level = $level;
-                        break;
-
-                    case ':':
-                        $post = " ";
-                        break;
-
-                    case " ": case "\t": case "\n": case "\r":
-                    $char = "";
-                    $ends_line_level = $new_line_level;
-                    $new_line_level = NULL;
-                    break;
-                }
-            } else if ( $char === '\\' ) {
-                $in_escape = true;
-            }
-            if( $new_line_level !== NULL ) {
-                $result .= "\n".str_repeat( "\t", $new_line_level );
-            }
-            $result .= $char.$post;
-        }
-
-        return '<pre>' . $result . '</pre>';
     }
 }
 

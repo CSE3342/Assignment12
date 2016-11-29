@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="3ef11b73-f652-43ca-8e27-02d71f9f355c" name="SMU server" url="http://genuse1.lyle.smu.edu">
+      <webServer id="8c26503e-692f-4317-9c3c-50f2eaff4de4" name="SMU Server" url="http://genuse1.lyle.smu.edu">
         <fileTransfer host="genuse1.lyle.smu.edu" port="22" rootFolder="/users5/cse/prestont/public_html/3342" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />

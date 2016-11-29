@@ -1,0 +1,1 @@
+java -cp ".;C:\Users\PrestonSSD2\PhpstormProjects\Assignment12\antlr-4.5.3-complete.jar" org.antlr.v4.runtime.misc.TestRig %*
